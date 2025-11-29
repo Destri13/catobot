@@ -7,18 +7,18 @@ import json
 # ==============================================================================
 # 1. CONFIGURACIÓN Y CREDENCIALES
 # ==============================================================================
-GOOGLE_API_KEY = "AIzaSyAbGJuVdE0Fks29IC1fNIsVC1woZ-41cNM"
+GOOGLE_API_KEY = st.secrets["GOOGLE_API_KEY"]
 genai.configure(api_key=GOOGLE_API_KEY)
 
 # ==============================================================================
 # 2. MOTOR DE IA CON SISTEMA ANTI-CAÍDAS (Estabilidad)
 # ==============================================================================
-# Este bloque asegura que el bot no se caiga por errores 404 o 429.
+
 model = None
 modelos_prioritarios = [
-    "gemini-2.5-flash",        # Opción 1: El más rápido y gratuito
-    "gemini-2.5-flash-latest", # Opción 2: La última versión estable
-    "gemini-pro"               # Opción 3: El clásico confiable
+    "gemini-2.5-flash",        
+    "gemini-2.5-flash-latest", 
+    "gemini-pro"               
 ]
 
 for nombre in modelos_prioritarios:
@@ -37,9 +37,9 @@ st.set_page_config(page_title="BiblioBot UCB", page_icon="🎓", layout="centere
 # ==============================================================================
 # 3. BASE DE DATOS LOCAL (CATÁLOGO FÍSICO SIMULADO - 10 ÍTEMS)
 # ==============================================================================
-# Contiene metadatos completos tipo Koha: ID, Título, Autor, Editorial, Año, ISBN, Signatura.
+
 db_items = [
-    # --- LIBROS DISPONIBLES (7 ÍTEMS) ---
+ 
     {
         "id": "101",
         "tipo": "libro",
@@ -235,7 +235,7 @@ def detectar_intencion(texto):
 st.title("📚 BiblioBot UCB")
 st.caption("Plan Estratégico 2026 | Convenios CEUB & ISO 9001")
 
-# --- 6. MÓDULO DE LOGIN VIP (TU USUARIO ESPECÍFICO) ---
+# --- 6. MÓDULO DE LOGIN VIP
 if "reserva_activa" not in st.session_state: 
     st.session_state.reserva_activa = None
 
@@ -314,4 +314,5 @@ if prompt := st.chat_input("Escribe aquí (Ej: 'Horarios', 'Soy de la EMI', 'Bus
                                     c2.caption(f"Vuelve: {item.get('devolucion')}")
 
             except Exception as e:
+
                 st.error(f"Error técnico: {e}")
